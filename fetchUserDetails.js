@@ -41,7 +41,7 @@ class User {
     return false;
   }
   #validateHobbies(hobbies) {
-    return hobbies.length > 0;
+    return hobbies.length > 0 && hobbies[0] !== '';
   }
   addHobbies(hobbiesString) {
     const hobbies = hobbiesString.split(',');
@@ -51,50 +51,54 @@ class User {
     }
     return false;
   }
-  display() {
-    console.log(this.user);
-  }
   registerDetails() {
-    fs.writeFileSync(this.user.name + '.json', JSON.stringify(this.user), 'utf8');
+    return JSON.stringify(this.user);
   }
 }
 
-const readInput = (reading) => {
+const readInput = (queries) => {
   let input = '';
   let index = 0;
-  console.log(reading[index].label);
+  console.log(queries[index].query);
   process.stdin.on('data', (chunk) => {
     input += chunk;
     const lines = input.split('\n');
     lines.slice(0, -1).forEach((line) => {
-      if (reading[index].callback(line)) {
+      if (queries[index].answer(line)) {
         index++;
       }
-      console.log(reading[index].label);
+      console.log(queries[index].query);
     });
     input = lines.slice(-1)[0];
   });
 
   process.stdin.on('end', () => {
-    console.log('Thank you')
+    console.log('Thank you');
   });
 
 };
 
 const getDetails = () => {
   const user = new User();
-  const reading = [
-    { label: 'Name:', callback: (name) => user.addName(name) },
-    { label: 'DOB:', callback: (dob) => user.addDOB(dob) },
-    { label: 'Hobbies:', callback: (hobbies) => user.addHobbies(hobbies) },
+  const queries = [
     {
-      label: 'Thank you', callback: () => {
-        user.registerDetails();
+      query: 'Please enter your name:', answer: (name) => user.addName(name)
+    },
+    {
+      query: 'Please enter your DOB(yyyy-mm-dd)', answer: (dob) => user.addDOB(dob)
+    },
+    {
+      query: 'Please enter your hobbies', answer: (hobbies) => user.addHobbies(hobbies)
+    },
+    {
+      query: 'Thank you', answer: () => {
+        const details = user.registerDetails();
+        fs.writeFileSync('user.json', details, 'utf8');
         process.exit();
       }
     }
   ];
-  readInput(reading);
+  readInput(queries);
 }
 
 getDetails();
