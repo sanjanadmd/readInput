@@ -42,6 +42,12 @@ const getDetails = () => {
       query: 'Enter phone number', answer: (number) => user.addPhoneNumber(number)
     },
     {
+      query: 'Enter address line 1', answer: (address) => user.addAddress(address.concat('\n'))
+    },
+    {
+      query: 'Enter address line 2', answer: (address) => user.addAddress(address)
+    },
+    {
       query: 'Thank you', answer: () => {
         const details = user.registerDetails();
         fs.writeFileSync('user.json', details, 'utf8');

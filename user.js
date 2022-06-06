@@ -1,6 +1,7 @@
 class User {
   constructor() {
     this.user = {};
+    this.user.address = [];
   }
 
   #validateName(name) {
@@ -54,6 +55,23 @@ class User {
   addPhoneNumber(number) {
     if (this.#validatePhoneNumber(number)) {
       this.user.ph_no = number;
+      return true;
+    }
+    return false;
+  }
+  #validateAddress(address) {
+    return address !== '';
+  }
+
+  setAddress() {
+    if (this.user.address === undefined) {
+      this.user.address = '';
+    }
+  }
+  addAddress(address) {
+    if (this.#validateAddress(address)) {
+      this.setAddress();
+      this.user.address += address;
       return true;
     }
     return false;
