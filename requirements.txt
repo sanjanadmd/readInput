@@ -1,0 +1,16 @@
+Please enter your name:
+abcd
+
+Please enter your DOB(yyyy-mm-dd)
+2000-01-01
+
+Please enter your hobbies
+listening,reading
+
+Thank you
+
+{
+  name:'abcd',
+  dob:'2000-01-01',
+  hobbies:['listening','reading']
+}
