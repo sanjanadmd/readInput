@@ -39,6 +39,9 @@ const getDetails = () => {
       query: 'Please enter your hobbies', answer: (hobbies) => user.addHobbies(hobbies)
     },
     {
+      query: 'Enter phone number', answer: (number) => user.addPhoneNumber(number)
+    },
+    {
       query: 'Thank you', answer: () => {
         const details = user.registerDetails();
         fs.writeFileSync('user.json', details, 'utf8');

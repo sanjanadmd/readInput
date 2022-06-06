@@ -47,6 +47,17 @@ class User {
     }
     return false;
   }
+
+  #validatePhoneNumber(number) {
+    return number.length === 10 && isFinite(number);
+  }
+  addPhoneNumber(number) {
+    if (this.#validatePhoneNumber(number)) {
+      this.user.ph_no = number;
+      return true;
+    }
+    return false;
+  }
   registerDetails() {
     return JSON.stringify(this.user);
   }

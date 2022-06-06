@@ -7,10 +7,19 @@ Please enter your DOB(yyyy-mm-dd)
 Please enter your hobbies
 listening,reading
 
+Enter phone number
+1234567890
+
+Enter address line 1
+  houseNo,streetName,cityName
+Enter address line 2
+  state,country
 Thank you
 
 {
   name:'abcd',
   dob:'2000-01-01',
   hobbies:['listening','reading']
+  ph_no:1234567890
+  address:'houseNo,streetName,cityName\nstate,country'
 }
