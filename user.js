@@ -1,3 +1,18 @@
+const validateYear = (year) => {
+  return year?.length === 4 && isFinite(year);
+}
+const validateMonth = (month) => {
+  return month?.length === 2 && isFinite(month);
+}
+const validateDate = (date) => {
+  return date?.length === 2 && isFinite(date);
+}
+
+const validateDOB = (dob) => {
+  const [year, month, date] = dob.split('-');
+  return validateYear(year) && validateMonth(month) && validateDate(date);
+}
+
 class User {
   constructor() {
     this.user = {};
@@ -17,21 +32,8 @@ class User {
     }
     return false;
   }
-  #validateYear(year) {
-    return year?.length === 4 && isFinite(year);
-  }
-  #validateMonth(month) {
-    return month?.length === 2 && isFinite(month);
-  }
-  #validateDate(date) {
-    return date?.length === 2 && isFinite(date);
-  }
-  #validateDOB(dob) {
-    const [year, month, date] = dob.split('-');
-    return this.#validateYear(year) && this.#validateMonth(month) && this.#validateDate(date);
-  }
   addDOB(dob) {
-    if (this.#validateDOB(dob)) {
+    if (validateDOB(dob)) {
       this.user.dob = dob;
       return true;
     }
@@ -71,7 +73,7 @@ class User {
   addAddress(address) {
     if (this.#validateAddress(address)) {
       this.setAddress();
-      this.user.address += address;
+      this.user.address = (this.user.address + '\n' + address).trim();
       return true;
     }
     return false;

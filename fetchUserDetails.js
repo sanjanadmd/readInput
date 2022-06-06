@@ -4,26 +4,21 @@ const { User } = require("./user.js");
 
 process.stdin.setEncoding('utf8');
 
-const readInput = (queries) => {
-  let input = '';
+const readInput = (queries, cb) => {
   let index = 0;
   console.log(queries[index].query);
   process.stdin.on('data', (chunk) => {
-    input += chunk;
-    const lines = input.split('\n');
-    lines.slice(0, -1).forEach((line) => {
-      if (queries[index].answer(line)) {
-        index++;
-      }
-      console.log(queries[index].query);
-    });
-    input = lines.slice(-1)[0];
+    const [input] = chunk.split('\n');
+    if (queries[index].answer(input)) {
+      index++;
+    }
+    if (queries.length === index) {
+      console.log('Thank you');
+      fs.writeFileSync('user.json', cb(), 'utf8');
+      process.exit();
+    }
+    console.log(queries[index].query);
   });
-
-  process.stdin.on('end', () => {
-    console.log('Thank you');
-  });
-
 };
 
 const getDetails = () => {
@@ -42,20 +37,13 @@ const getDetails = () => {
       query: 'Enter phone number', answer: (number) => user.addPhoneNumber(number)
     },
     {
-      query: 'Enter address line 1', answer: (address) => user.addAddress(address.concat('\n'))
+      query: 'Enter address line 1', answer: (address) => user.addAddress(address)
     },
     {
       query: 'Enter address line 2', answer: (address) => user.addAddress(address)
     },
-    {
-      query: 'Thank you', answer: () => {
-        const details = user.registerDetails();
-        fs.writeFileSync('user.json', details, 'utf8');
-        process.exit();
-      }
-    }
   ];
-  readInput(queries);
+  readInput(queries, () => user.registerDetails());
 }
 
 getDetails();
