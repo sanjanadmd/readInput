@@ -19,6 +19,7 @@ const readInput = (queries, cb) => {
     }
     console.log(queries[index].query);
   });
+  process.stdin.on('end', () => console.log('Thank you'));
 };
 
 const getDetails = () => {
