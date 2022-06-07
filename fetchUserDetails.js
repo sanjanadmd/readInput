@@ -3,6 +3,7 @@ const fs = require('fs');
 const { User } = require("./user.js");
 
 process.stdin.setEncoding('utf8');
+
 const validateName = (name) => {
   if (name.length > 4) {
     return !isFinite(name);
@@ -30,20 +31,28 @@ const validatePhoneNumber = (number) => {
 const validateAddress = (address) => {
   return address !== '';
 }
-const readInput = (queries, cb) => {
+
+const fillForm = (input, isValid, answer) => {
+  if (isValid(input)) {
+    answer(input);
+    return true;
+  }
+  return false;
+}
+
+const readInput = (queries, cb, endCb) => {
   let index = 0;
   console.log(queries[index].query);
   process.stdin.on('data', (chunk) => {
+
     const input = chunk.split('\n')[0];
-    if (queries[index].validate(input)) {
-      queries[index].answer(input);
-      index++;
-    }
+    index += cb(input, queries[index].validate, queries[index].answer) ? 1 : 0;
+
     if (queries.length === index) {
-      fs.writeFileSync('form.json', cb(), 'utf8');
-      console.log('Thank you');
+      endCb();
       process.exit();
     }
+
     console.log(queries[index].query);
   });
   process.stdin.on('end', () => console.log('Thank you'));
@@ -83,7 +92,10 @@ const getDetails = () => {
       validate: validateAddress
     },
   ];
-  readInput(queries, () => user.registerDetails());
+  readInput(queries, fillForm, () => {
+    fs.writeFileSync('form.json', user.registerDetails(), 'utf8');
+    console.log('Thank you');
+  });
 }
 
 getDetails();
