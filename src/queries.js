@@ -1,4 +1,4 @@
-const { User } = require("./user.js");
+const { Field } = require("./field.js");
 
 const validateName = (name) => {
   if (name.length > 4) {
@@ -23,41 +23,27 @@ const validateAddress = (address) => {
   return address !== '';
 }
 
+const splitByComma = (response) => response.split('\n');
+
 const getQueries = () => {
-  const user = new User();
+  const nameField = new Field('name', 'Please enter your name:', validateName);
+
+  const dobField = new Field(
+    'dob', 'Please enter your DOB(yyyy-mm-dd)', validateDOB);
+
+  const hobbiesField = new Field(
+    'hobbies', 'Please enter your hobbies', validateHobbies, splitByComma);
+
+  const phoneNumberField = new Field(
+    'ph_no', 'Enter phone number', validatePhoneNumber);
+
+  const addressField = new Field('address', 'Enter address line 1', validateAddress);
+
   const queries = [
-    {
-      query: 'Please enter your name:',
-      answer: (name) => user.addName(name),
-      validate: validateName
-    },
-    {
-      query: 'Please enter your DOB(yyyy-mm-dd)',
-      answer: (dob) => user.addDOB(dob),
-      validate: validateDOB
-    },
-    {
-      query: 'Please enter your hobbies',
-      answer: (hobbies) => user.addHobbies(hobbies),
-      validate: validateHobbies
-    },
-    {
-      query: 'Enter phone number',
-      answer: (number) => user.addPhoneNumber(number),
-      validate: validatePhoneNumber
-    },
-    {
-      query: 'Enter address line 1',
-      answer: (address) => user.addAddress(address),
-      validate: validateAddress
-    },
-    {
-      query: 'Enter address line 2',
-      answer: (address) => user.addAddress(address),
-      validate: validateAddress
-    },
+    nameField, dobField, hobbiesField, phoneNumberField, addressField
   ];
-  return { queries, onResponseReady: () => user.registerDetails() };
+
+  return queries;
 }
 
 module.exports = { getQueries }

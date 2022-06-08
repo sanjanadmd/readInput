@@ -1,23 +1,25 @@
-const fillField = (input, isValid, answer) => {
-  if (isValid(input)) {
-    answer(input);
-    return true;
-  }
-  return false;
+const getUserResponses = (queries) => {
+  const formattedResponses = {};
+  queries.forEach(query => {
+    const { name, response } = query.getEntry();
+    formattedResponses[name] = response;
+  });
+  return formattedResponses;
 }
 
-const registerDetails = (input, queries, index, endCb, logger) => {
-  const { validate, answer } = queries[index];
-  if (fillField(input, validate, answer)) {
+const registerDetails = (response, queries, index, endCb, logger) => {
+  const field = queries[index];
+  if (field.isValid(response)) {
+    field.fill(response);
     index++;
   }
   if (queries.length !== index) {
-    logger(queries[index].query);
+    logger(queries[index].getPrompt());
     return index;
   }
 
   logger('Thank you');
-  endCb();
+  endCb(getUserResponses(queries));
 }
 
-module.exports = { fillField, registerDetails };
+module.exports = { getUserResponses, registerDetails };
