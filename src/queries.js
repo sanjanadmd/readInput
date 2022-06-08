@@ -1,4 +1,5 @@
 const { Field } = require("./field.js");
+const { Form } = require("./form.js");
 
 const validateName = (name) => {
   if (name.length > 4) {
@@ -25,7 +26,7 @@ const validateAddress = (address) => {
 
 const splitByComma = (response) => response.split('\n');
 
-const getQueries = () => {
+const createForm = () => {
   const nameField = new Field('name', 'Please enter your name:', validateName);
 
   const dobField = new Field(
@@ -39,11 +40,8 @@ const getQueries = () => {
 
   const addressField = new Field('address', 'Enter address line 1', validateAddress);
 
-  const queries = [
-    nameField, dobField, hobbiesField, phoneNumberField, addressField
-  ];
 
-  return queries;
+  return new Form(nameField, dobField, hobbiesField, phoneNumberField, addressField);
 }
 
-module.exports = { getQueries }
+module.exports = { createForm }

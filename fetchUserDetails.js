@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const { getQueries } = require('./src/queries.js');
+const { createForm } = require('./src/queries.js');
 const { registerDetails } = require('./src/form.js');
 
 process.stdin.setEncoding('utf8');
@@ -10,19 +10,17 @@ const writeToFile = (responses) => {
   process.stdin.destroy();
 }
 
-const readInput = (queries, endCb) => {
-  let index = 0;
-  console.log(queries[index].getPrompt());
+const readInput = (form, endCb) => {
+  console.log(form.getPrompt());
   process.stdin.on('data', (response) => {
-    index = registerDetails(
-      response.trim(), queries, index, endCb, console.log);
+    registerDetails(response.trim(), form, endCb, console.log);
   });
   process.stdin.on('end', () => console.log('Thank you'));
 };
 
 const getDetails = () => {
-  const queries = getQueries();
-  readInput(queries, writeToFile);
+  const form = createForm();
+  readInput(form, writeToFile);
 }
 
 getDetails();
