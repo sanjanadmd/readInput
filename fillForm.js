@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-const { createForm } = require('./src/queries.js');
-const { registerDetails } = require('./src/form.js');
+const { createForm } = require('./src/createForm.js');
+const { registerDetails } = require('./src/registerDetails.js');
 
 process.stdin.setEncoding('utf8');
 
