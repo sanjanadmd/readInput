@@ -27,9 +27,9 @@ function testFillForm(){
 
 function fillFormTestCases(){
 
-  local inputs="pencil\n2000-10-10\nwriting,stopping\n9090909090\nsomewhere"
+  local inputs="pencil\n2000-10-10\nwriting,stopping\n9090909090\nsomewhere\nnowhere"
 
-  expected='{"name":"pencil","dob":"2000-10-10","hobbies":["writing","stopping"],"ph_no":"9090909090","address":"somewhere"}'
+  expected='{"name":"pencil","dob":"2000-10-10","hobbies":["writing","stopping"],"ph_no":"9090909090","address":"somewhere\nnowhere"}'
 
   message="Should write details in file when form is filled"
 
@@ -43,8 +43,8 @@ function fillFormTestCases(){
   testFillForm "${message}" "${inputs}" "${expected}"
 
 
-  local inputs="john\npencil\n2000-10-10\nwriting,stopping\n9090909090\nsomewhere"
-  expected='{"name":"pencil","dob":"2000-10-10","hobbies":["writing","stopping"],"ph_no":"9090909090","address":"somewhere"}'
+  local inputs="john\npencil\n2000-10-10\nwriting,stopping\n9090909090\nsomewhere\nnowhere"
+  expected='{"name":"pencil","dob":"2000-10-10","hobbies":["writing","stopping"],"ph_no":"9090909090","address":"somewhere\nnowhere"}'
 
   message="Should write valid details in file"
 

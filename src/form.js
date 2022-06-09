@@ -14,6 +14,8 @@ class Form {
     const currentField = this.#getCurrentField();
     if (currentField.isValid(response)) {
       currentField.fill(response);
+    }
+    if (currentField.isFilled()) {
       this.#currentField++;
     }
   }
