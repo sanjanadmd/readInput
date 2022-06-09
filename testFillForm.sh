@@ -46,7 +46,7 @@ function fillFormTestCases(){
   local inputs="john\npencil\n2000-10-10\nwriting,stopping\n9090909090\nsomewhere"
   expected='{"name":"pencil","dob":"2000-10-10","hobbies":["writing","stopping"],"ph_no":"9090909090","address":"somewhere"}'
 
-  message="Should not write details in file when form is not filled"
+  message="Should write valid details in file"
 
   testFillForm "${message}" "${inputs}" "${expected}"
 
