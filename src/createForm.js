@@ -13,7 +13,7 @@ const validateDOB = (dob) => {
 }
 
 const validateHobbies = (hobbies) => {
-  return hobbies.length > 0 && hobbies[0] !== '';
+  return hobbies !== '';
 }
 
 const validatePhoneNumber = (number) => {
@@ -24,7 +24,7 @@ const validateAddress = (address) => {
   return address !== '';
 }
 
-const splitByComma = (response) => response.split('\n');
+const splitByComma = (response) => response.split(',');
 
 const createForm = () => {
   const nameField = new Field('name', 'Please enter your name:', validateName);

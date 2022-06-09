@@ -6,14 +6,17 @@ const { registerDetails } = require('./src/registerDetails.js');
 process.stdin.setEncoding('utf8');
 
 const writeToFile = (responses) => {
-  fs.writeFileSync('form.json', JSON.stringify(responses), 'utf8');
+  fs.writeFileSync('./form.json', JSON.stringify(responses), 'utf8');
   process.stdin.destroy();
 }
 
 const readInput = (form, endCb) => {
   console.log(form.getPrompt());
   process.stdin.on('data', (response) => {
-    registerDetails(response.trim(), form, endCb, console.log);
+    const lines = response.trim().split('\n');
+    lines.forEach(line => {
+      registerDetails(line, form, endCb, console.log);
+    });
   });
   process.stdin.on('end', () => console.log('Thank you'));
 };

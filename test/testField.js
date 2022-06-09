@@ -45,5 +45,14 @@ describe('Field', () => {
       assert.deepStrictEqual(nameField.getEntry(),
         { name: 'name', response: 'john' });
     });
+    it('should return the entry after filling response with the parser', () => {
+
+      const alwaysTrue = () => true;
+      const splitByComma = (response) => response.split('\n');
+      const nameField = new Field('name', 'Name', alwaysTrue, splitByComma);
+      nameField.fill('john');
+      assert.deepStrictEqual(nameField.getEntry(),
+        { name: 'name', response: ['john'] });
+    });
   });
 });
